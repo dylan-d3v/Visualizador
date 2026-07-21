@@ -1,0 +1,46 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Vite / build output
+dist/
+.vite/
+*.tgz
+
+# TypeScript
+*.tsbuildinfo
+
+# Environment variables (no subir secretos)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Caches and misc
+.cache/
+.sass-cache/
+
+# Optional: lockfiles
+# Mantén el lockfile (package-lock.json / yarn.lock / pnpm-lock.yaml) en el repo para reproducibilidad.
+# Si prefieres ignorarlos, descomenta la línea correspondiente:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
