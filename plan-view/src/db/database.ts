@@ -14,6 +14,7 @@ export class PlanViewDatabase extends Dexie {
   photos!: Table<ObjectPhoto, string>;
 
   constructor() {
+    /* Crea una base de datos local llamada plan-view-db en el navegador o en el telefono del usuario */
     super("plan-view-db");
 
     this.version(1).stores({
