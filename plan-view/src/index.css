@@ -138,3 +138,10 @@ code {
 
     min-height:220px;
 }
+
+.object-title{
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:10px;
+    color: black;
+}

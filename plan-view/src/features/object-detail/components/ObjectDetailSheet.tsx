@@ -33,7 +33,7 @@ export function ObjectDetailSheet() {
         Cerrar
       </button>
 
-      <h2>{object.code}</h2>
+      <h2 className="object-title">{object.code}</h2>
 
       <PhotoUploader objectId={object.id} />
 
