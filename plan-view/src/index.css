@@ -120,3 +120,21 @@ code {
   cursor: pointer; /* Cambiar el cursor al pasar sobre el marcador */
   border: none; /* Eliminar el borde predeterminado */
 }
+
+.bottom-sheet{
+    position:fixed;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    background:white;
+
+    border-radius:20px 20px 0 0;
+
+    padding:20px;
+
+    box-shadow:0 -5px 30px rgba(0,0,0,.2);
+
+    min-height:220px;
+}
