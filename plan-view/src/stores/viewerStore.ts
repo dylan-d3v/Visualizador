@@ -1,3 +1,4 @@
+// Almacenador de Zustand para manejar el estado del visor de dibujo
 import { create } from "zustand";
 // Interface para el estado del visor
 interface ViewerState {
