@@ -1,5 +1,5 @@
 // Llamando a los datos de los objetos de dibujo desde el archivo drawingObjects.ts
-import { drawingObjects } from "../../data/drawingObjects";
+import { drawingObjects } from "../../../data/drawingObjects";
 // Este componente muestra la vista del plano con los objetos de dibujo superpuestos en sus posiciones correspondientes
 export function DrawingViewer() {
   return (
