@@ -1,7 +1,7 @@
-import { DrawingViewer } from "./features/drawing/components/DrawingViewer";
+import { ViewerPage } from "./pages/ViewerPage";
 
 function App() {
-  return <DrawingViewer />;
+  return <ViewerPage />;
 }
 
 export default App;
