@@ -14,7 +14,7 @@ export function DrawingViewer() {
         <button
           key={object.id}
           type="button"
-          className="absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600"
+          className="object-marker"
           style={{
             left: `${object.x * 100}%`,
             top: `${object.y * 100}%`,

@@ -109,3 +109,14 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.object-marker {
+  position: absolute;
+  height: 1rem; /* Tamaño del marcador */
+  width: 1rem; /* Tamaño del marcador */
+  transform: translate(-50%, -50%); /* Centrar el marcador */
+  border-radius: 50%; /* Hacerlo circular */
+  background-color: #ff0000; /* Color del marcador */
+  cursor: pointer; /* Cambiar el cursor al pasar sobre el marcador */
+  border: none; /* Eliminar el borde predeterminado */
+}
