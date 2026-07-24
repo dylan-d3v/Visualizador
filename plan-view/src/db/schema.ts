@@ -25,5 +25,6 @@ export interface ObjectPhoto {
   fileName: string;
   mimeType: string;
   size: number;
+  isPrimary: boolean; //Para agregar foto primaria
   createdAt: number;
 }
