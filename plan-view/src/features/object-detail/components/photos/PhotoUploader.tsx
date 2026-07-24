@@ -1,41 +1,65 @@
-// Importo el tipo `ChangeEvent` desde la librería `react` para tipar el evento de cambio del input
-import type { ChangeEvent } from "react";
-// Importo la función `addPhoto` desde el repositorio de fotos para agregar una foto a la base de datos
+// PhotoUploader es un componente que permite al usuario subir una foto para un objeto específico. Utiliza un input de tipo file oculto y un botón que, al hacer clic, activa el input para seleccionar un archivo. Cuando se selecciona un archivo, se llama a la función `addPhoto` para agregar la foto al objeto correspondiente en la base de datos.
+import { useRef } from "react";
 import { addPhoto } from "../../../../db/repositories/photoRepository";
-// Defino la interfaz `Props` que contiene el `objectId` del objeto al que se le van a subir las fotos
-interface Props{
-    objectId:string;
+
+interface Props {
+  objectId: string;
 }
-// Exporto el componente `PhotoUploader` que recibe las props definidas en la interfaz `Props`
+
 export function PhotoUploader({
-    objectId
-}:Props){
-    // Defino la función `handleChange` que se ejecuta cuando el usuario selecciona un archivo en el input
-    async function handleChange(
-        event:ChangeEvent<HTMLInputElement>
-    ){
-        // Obtengo el primer archivo seleccionado por el usuario (si existe)    
-        const file=event.target.files?.[0];
+  objectId,
+}: Props) {
+    // Uso useRef para crear una referencia al input de tipo file, lo que me permite activarlo programáticamente cuando el usuario hace clic en el botón
+  const inputRef =
+    useRef<HTMLInputElement>(null);
+    // Función que maneja el cambio en el input de tipo file. Cuando el usuario selecciona un archivo, se obtiene el primer archivo del array de archivos seleccionados y se llama a `addPhoto` para agregar la foto al objeto correspondiente. Luego, se limpia el valor del input para permitir subir la misma foto nuevamente si es necesario
+  async function handleChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
 
-        if(!file)
-            return;
-        // Llamo a la función `addPhoto` para agregar la foto a la base de datos, pasando el `objectId` y el archivo seleccionado
-        await addPhoto(
-            objectId,
-            file
-        );
-        // Limpio el valor del input para permitir subir la misma foto nuevamente si se desea
-        event.target.value="";
-    }
+    const file =
+      event.target.files?.[0];
 
-    return(
-        // Renderizo un input de tipo archivo que acepta solo imágenes y llama a la función `handleChange` cuando el usuario selecciona un archivo
-        <input
-            type="file"
-            accept="image/*"
-            onChange={handleChange}
-        />
+    if (!file)
+      return;
 
+    await addPhoto(
+      objectId,
+      file
     );
+
+    event.target.value = "";
+
+  }
+
+  return (
+    <>
+
+      <input
+        hidden
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleChange}
+      />
+
+      <button
+        className="upload-card"
+        onClick={() =>
+          inputRef.current?.click()
+        }
+      >
+
+        📷
+
+        <br />
+
+        Agregar fotografía
+
+      </button>
+
+    </>
+
+  );
 
 }
