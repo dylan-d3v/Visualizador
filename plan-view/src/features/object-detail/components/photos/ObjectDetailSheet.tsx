@@ -1,13 +1,13 @@
 // Importo el array de objetos de dibujo desde el archivo de datos
-import { drawingObjects } from "../../../data/drawingObjects";
+import { drawingObjects } from "../../../../data/drawingObjects";
 // Importo el hook `useViewerStore` desde la tienda de estado para acceder al estado del visor
-import { useViewerStore } from "../../../stores/viewerStore";
+import { useViewerStore } from "../../../../stores/viewerStore";
 // Importo el hook para obtener las fotos de un objeto
-import { useObjectPhotos } from "../../object-detail/hooks/useObjectPhotos";
+import { useObjectPhotos } from "../../hooks/useObjectPhotos";
 // Importo el componente para subir fotos
-import { PhotoUploader } from "../../object-detail/components/PhotoUploader";
+import { PhotoUploader } from "./PhotoUploader";
 // Importo el componente que muestra la galería de fotos
-import { ObjectPhotoGallery } from "../../object-detail/components/ObjectPhotoGallery";
+import { ObjectPhotoGallery } from "../../../object-detail/components/photos/ObjectPhotoGallery";
 
 export function ObjectDetailSheet() {
   const {

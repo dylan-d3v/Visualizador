@@ -1,7 +1,7 @@
 // Importo los hooks `useEffect` y `useMemo` desde la librería `react` para manejar efectos secundarios y memorizar valores derivados
 import { useEffect, useMemo } from "react";
 // Importo el tipo `ObjectPhoto` desde el archivo de esquema para tipar las props del componente
-import type { ObjectPhoto } from "../../../db/schema";
+import type { ObjectPhoto } from "../../../../db/schema";
 // Defino la interfaz `Props` que contiene un array de fotos de objetos
 interface Props{
     photos:ObjectPhoto[];
