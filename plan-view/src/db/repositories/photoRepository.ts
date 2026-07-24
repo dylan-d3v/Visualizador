@@ -9,18 +9,30 @@ export async function addPhoto(
 ) { // Creo un objeto `photo` de tipo `ObjectPhoto` con los datos proporcionados y un ID único generado por `crypto.randomUUID()`
   const photo: ObjectPhoto = {
     id: crypto.randomUUID(),
+
     objectId,
 
     blob: file,
 
     fileName: file.name,
+
     mimeType: file.type,
+
+    isPrimary: false, //agregado
+
     size: file.size,
 
     createdAt: Date.now(),
   };
+  // Verifico si ya existen fotos para el objeto dado. Si no existen, establezco la nueva foto como primaria
+  await getPhotosByObject(objectId).then((photos) => {
+    if (photos.length === 0) {
+      photo.isPrimary = true; // Si no hay fotos existentes, establezco la nueva foto como primaria
+    }
+  });
 
   await db.photos.add(photo);
+
 }
 // Exporto la función para eliminar una foto de objeto por su ID
 export async function deletePhoto(id: string) {
