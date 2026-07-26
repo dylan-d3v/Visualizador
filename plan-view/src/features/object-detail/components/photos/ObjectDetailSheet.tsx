@@ -2,12 +2,7 @@
 import { drawingObjects } from "../../../../data/drawingObjects";
 // Importo el hook `useViewerStore` desde la tienda de estado para acceder al estado del visor
 import { useViewerStore } from "../../../../stores/viewerStore";
-// Importo el hook para obtener las fotos de un objeto
-import { useObjectPhotos } from "../../hooks/useObjectPhotos";
-// Importo el componente para subir fotos
-import { PhotoUploader } from "./PhotoUploader";
-// Importo el componente que muestra la galería de fotos
-import { ObjectPhotoGallery } from "../../../object-detail/components/photos/ObjectPhotoGallery";
+import { PhotoSection } from "./PhotoSection";
 
 export function ObjectDetailSheet() {
   const {
@@ -21,9 +16,6 @@ export function ObjectDetailSheet() {
     (item) => item.id === selectedObjectId
   );
 
-  // Si no hay objeto, devolvemos array vacío
-  const photos = useObjectPhotos(object?.id ?? "");
-
   if (!isDetailOpen || !object) return null;
 
   return (
@@ -35,9 +27,9 @@ export function ObjectDetailSheet() {
 
       <h2 className="object-title">{object.code}</h2>
 
-      <PhotoUploader objectId={object.id} />
-
-      <ObjectPhotoGallery photos={photos} />
+      <PhotoSection
+        objectId={object.id}
+      />
 
       <hr />
 
