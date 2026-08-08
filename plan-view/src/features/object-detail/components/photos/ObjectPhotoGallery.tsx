@@ -3,10 +3,15 @@ import { PhotoCard } from "./PhotoCard";
 
 interface Props {
   photos: ObjectPhoto[];
+
+    onPhotoClick(
+        photo:ObjectPhoto
+    ):void;
 }
 
 export function ObjectPhotoGallery({
   photos,
+  onPhotoClick,
 }: Props) {
 
   if (photos.length === 0) {
@@ -32,9 +37,9 @@ export function ObjectPhotoGallery({
         <PhotoCard
           key={photo.id}
           photo={photo}
-          onClick={() => {
-            console.log(photo.id);
-          }}
+          onClick={() => 
+            onPhotoClick(photo)
+          }
         />
 
       ))}

@@ -21,6 +21,9 @@ export function PhotoSection({
 
       <ObjectPhotoGallery
         photos={photos}
+        onPhotoClick={(photo) => {
+          console.log("Photo clicked:", photo);
+        }}
       />
 
     </section>
