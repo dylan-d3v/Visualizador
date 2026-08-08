@@ -2,6 +2,7 @@ import { PhotoUploader } from "./PhotoUploader";
 import { ObjectPhotoGallery } from "./ObjectPhotoGallery";
 import { useObjectPhotos } from "../../hooks/useObjectPhotos";
 import { useFullscreenPhoto } from "../../hooks/useFullscreenPhoto";
+import { FullscreenPhotoDialog } from "./FullScreenPhotoDialog";
 
 interface Props {
   objectId: string;
@@ -13,6 +14,10 @@ export function PhotoSection({
 
   const photos = useObjectPhotos(objectId);
   const fullscreen = useFullscreenPhoto();
+  const selectedPhoto = photos.find(
+    photo => photo.id === fullscreen.selectedPhotoId
+  ) ?? null;
+
   return (
     <section>
 
@@ -22,11 +27,17 @@ export function PhotoSection({
 
       <ObjectPhotoGallery
         photos={photos}
-        onPhotoClick={(photo)=>
+        onPhotoClick={(photo) =>
 
-        fullscreen.open(photo.id)
+          fullscreen.open(photo.id)
 
-        }      />
+        } />
+
+      <FullscreenPhotoDialog
+        photo={selectedPhoto}
+        onClose={fullscreen.close}
+
+      />
 
     </section>
   );
