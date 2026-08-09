@@ -24,17 +24,23 @@ export function usePhotoZoom() {
     });
   }
 
-  function zoomIn() {
+  function setScale(scale: number) {
     setZoom((current) => ({
       ...current,
-      scale: Math.min(current.scale + 1, MAX_SCALE),
+      scale: Math.min(
+        Math.max(scale, MIN_SCALE),
+        MAX_SCALE
+      ),
     }));
   }
 
-  function zoomOut() {
+  function zoomIn() {
     setZoom((current) => ({
       ...current,
-      scale: Math.max(current.scale - 1, MIN_SCALE),
+      scale: Math.min(
+        current.scale + 1,
+        MAX_SCALE
+      ),
     }));
   }
 
@@ -48,11 +54,9 @@ export function usePhotoZoom() {
 
   return {
     zoom,
+    setScale,
     zoomIn,
-    zoomOut,
     reset,
     setPosition,
-    minScale: MIN_SCALE,
-    maxScale: MAX_SCALE,
   };
 }
