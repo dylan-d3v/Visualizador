@@ -21,7 +21,8 @@ export interface DrawingObject {
 export interface ObjectPhoto {
   id: string;
   objectId: string;
-  blob: Blob;
+  originalBlob: Blob;
+  thumbnailBlob: Blob;
   fileName: string;
   mimeType: string;
   size: number;

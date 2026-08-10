@@ -1,3 +1,4 @@
+import { createThumbnail } from "../../features/object-detail/components/photos/utils/imageProcesor";
 // Importo el objeto `db` desde el archivo de base de datos 
 import { db } from "../database";
 // Importo el tipo `ObjectPhoto` desde el archivo de esquema
@@ -6,13 +7,18 @@ import type { ObjectPhoto } from "../schema";
 export async function addPhoto(
   objectId: string,
   file: File
-) { // Creo un objeto `photo` de tipo `ObjectPhoto` con los datos proporcionados y un ID único generado por `crypto.randomUUID()`
+) {
+   const thumbnailBlob =
+    await createThumbnail(file);
+  // Creo un objeto `photo` de tipo `ObjectPhoto` con los datos proporcionados y un ID único generado por `crypto.randomUUID()`
   const photo: ObjectPhoto = {
     id: crypto.randomUUID(),
 
     objectId,
 
-    blob: file,
+    originalBlob: file,
+
+    thumbnailBlob: thumbnailBlob,
 
     fileName: file.name,
 
@@ -24,6 +30,9 @@ export async function addPhoto(
 
     createdAt: Date.now(),
   };
+
+   
+
   // Verifico si ya existen fotos para el objeto dado. Si no existen, establezco la nueva foto como primaria
   await getPhotosByObject(objectId).then((photos) => {
     if (photos.length === 0) {

@@ -16,7 +16,7 @@ export function FullscreenPhotoDialog({ photo, onClose, onDelete, onSetPrimary }
 
   const imageUrl = useMemo(() => {
     if (!photo) return null;
-    return URL.createObjectURL(photo.blob);
+    return URL.createObjectURL(photo.originalBlob);
   }, [photo]);
 
   useEffect(() => {

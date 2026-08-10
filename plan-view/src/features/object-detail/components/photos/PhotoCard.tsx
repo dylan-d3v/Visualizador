@@ -14,8 +14,8 @@ export function PhotoCard({
 }: Props) {
     // Uso useMemo para crear una URL de objeto a partir del blob de la foto, y solo recalcularla si el blob cambia
   const imageUrl = useMemo(
-    () => URL.createObjectURL(photo.blob),
-    [photo.blob]
+    () => URL.createObjectURL(photo.thumbnailBlob),
+    [photo.thumbnailBlob]
   );
 
   useEffect(() => {
