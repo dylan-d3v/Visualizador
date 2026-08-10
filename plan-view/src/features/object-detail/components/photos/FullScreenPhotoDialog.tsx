@@ -7,11 +7,13 @@ import { usePhotoZoom } from "../../hooks/usePhotoZoom";
 interface Props {
   photo: ObjectPhoto | null;
   onClose: () => void;
+  onDelete: (photo: ObjectPhoto) => void;
 }
 
 export function FullscreenPhotoDialog({
   photo,
   onClose,
+  onDelete,
 }: Props) {
   const {
     zoom,
@@ -75,6 +77,15 @@ export function FullscreenPhotoDialog({
         aria-label="Cerrar"
       >
         ✕
+      </button>
+      
+      <button
+        type="button"
+        className="delete-button"
+        onClick={() => onDelete(photo)}
+        aria-label="Eliminar fotografía"
+      >
+        🗑️
       </button>
 
       <div
