@@ -36,7 +36,51 @@ export async function addPhoto(
 }
 // Exporto la función para eliminar una foto de objeto por su ID
 export async function deletePhoto(id: string) {
-  await db.photos.delete(id);
+  await db.transaction(
+    "rw",
+    db.photos,
+    async () => {
+
+      const photo = await db.photos.get(id);
+
+      if (!photo) {
+        return;
+      }
+
+      // Si no era la principal,
+      // simplemente la eliminamos.
+      if (!photo.isPrimary) {
+        await db.photos.delete(id);
+        return;
+      }
+
+      // Buscamos las demás fotografías
+      // pertenecientes al mismo objeto.
+      const remainingPhotos = await db.photos
+        .where("objectId")
+        .equals(photo.objectId)
+        .filter(
+          (item) => item.id !== photo.id
+        )
+        .sortBy("createdAt");
+
+      // Eliminamos la fotografía principal.
+      await db.photos.delete(id);
+
+      // Si todavía existen fotografías,
+      // la primera pasa a ser principal.
+      if (remainingPhotos.length > 0) {
+
+        await db.photos.update(
+          remainingPhotos[0].id,
+          {
+            isPrimary: true,
+          }
+        );
+
+      }
+    }
+  );
 }
 // Exporto la función para obtener todas las fotos de un objeto por su ID
 export async function getPhotosByObject(
