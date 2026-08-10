@@ -6,9 +6,10 @@ interface Props {
   photo: ObjectPhoto | null;
   onClose: () => void;
   onDelete: (photo: ObjectPhoto) => void;
+  onSetPrimary: (photo: ObjectPhoto) => void;
 }
 
-export function FullscreenPhotoDialog({ photo, onClose, onDelete }: Props) {
+export function FullscreenPhotoDialog({ photo, onClose, onDelete, onSetPrimary }: Props) {
   const { zoom, zoomIn, reset } = usePhotoZoom();
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -34,6 +35,16 @@ export function FullscreenPhotoDialog({ photo, onClose, onDelete }: Props) {
 
   return (
     <div key={photo!.id} className="fullscreen-overlay">
+
+      <button
+        type="button"
+        onClick={() => onSetPrimary(photo)}
+        disabled={photo.isPrimary}
+        aria-label="Marcar como fotografía principal"
+      >
+        {photo.isPrimary ? "⭐" : "☆"}
+      </button>
+
       <button
         type="button"
         className="close-button"

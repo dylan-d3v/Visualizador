@@ -4,6 +4,7 @@ import type { ObjectPhoto } from "../../../../db/schema";
 
 import {
   deletePhoto,
+  setPrimaryPhoto,
 } from "../../../../db/repositories/photoRepository";
 
 import { useObjectPhotos } from "../../hooks/useObjectPhotos";
@@ -42,6 +43,15 @@ export function PhotoSection({
     setSelectedPhotoId(null);
   }
 
+  async function handleSetPrimary(
+    photo: ObjectPhoto
+  ) {
+    await setPrimaryPhoto(
+      photo.id,
+      objectId
+    );
+  }
+
   return (
     <section>
 
@@ -58,6 +68,7 @@ export function PhotoSection({
         photo={selectedPhoto}
         onClose={handleCloseFullscreen}
         onDelete={handleDelete}
+        onSetPrimary={handleSetPrimary}
       />
 
     </section>

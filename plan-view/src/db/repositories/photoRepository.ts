@@ -47,3 +47,32 @@ export async function getPhotosByObject(
     .equals(objectId)
     .sortBy("createdAt");
 }
+// Exporto la función para establecer una foto como primaria para un objeto dado
+export async function setPrimaryPhoto(
+  photoId: string,
+  objectId: string
+) {
+  await db.transaction(
+    "rw",
+    db.photos,
+    async () => {
+
+      // Quitamos la condición de principal
+      // de todas las fotos del objeto.
+      await db.photos
+        .where("objectId")
+        .equals(objectId)
+        .modify({
+          isPrimary: false,
+        });
+
+      // Marcamos la seleccionada como principal.
+      await db.photos.update(
+        photoId,
+        {
+          isPrimary: true,
+        }
+      );
+    }
+  );
+}
