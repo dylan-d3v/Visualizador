@@ -1,9 +1,16 @@
+import { useState } from "react";
+
+import type { ObjectPhoto } from "../../../../db/schema";
+
+import {
+  deletePhoto,
+} from "../../../../db/repositories/photoRepository";
+
+import { useObjectPhotos } from "../../hooks/useObjectPhotos";
+
 import { PhotoUploader } from "./PhotoUploader";
 import { ObjectPhotoGallery } from "./ObjectPhotoGallery";
-import { useObjectPhotos } from "../../hooks/useObjectPhotos";
-import { useFullscreenPhoto } from "../../hooks/useFullscreenPhoto";
 import { FullscreenPhotoDialog } from "./FullScreenPhotoDialog";
-
 interface Props {
   objectId: string;
 }
@@ -11,12 +18,29 @@ interface Props {
 export function PhotoSection({
   objectId,
 }: Props) {
-
   const photos = useObjectPhotos(objectId);
-  const fullscreen = useFullscreenPhoto();
-  const selectedPhoto = photos.find(
-    photo => photo.id === fullscreen.selectedPhotoId
-  ) ?? null;
+
+  const [selectedPhotoId, setSelectedPhotoId] =
+    useState<string | null>(null);
+
+  const selectedPhoto =
+    photos.find(
+      (photo) => photo.id === selectedPhotoId
+    ) ?? null;
+
+  function handlePhotoClick(photo: ObjectPhoto) {
+    setSelectedPhotoId(photo.id);
+  }
+
+  async function handleDelete(photo: ObjectPhoto) {
+    await deletePhoto(photo.id);
+
+    setSelectedPhotoId(null);
+  }
+
+  function handleCloseFullscreen() {
+    setSelectedPhotoId(null);
+  }
 
   return (
     <section>
@@ -27,19 +51,15 @@ export function PhotoSection({
 
       <ObjectPhotoGallery
         photos={photos}
-        onPhotoClick={(photo) =>
-
-          fullscreen.open(photo.id)
-
-        } />
+        onPhotoClick={handlePhotoClick}
+      />
 
       <FullscreenPhotoDialog
         photo={selectedPhoto}
-        onClose={fullscreen.close}
-
+        onClose={handleCloseFullscreen}
+        onDelete={handleDelete}
       />
 
     </section>
   );
-
 }

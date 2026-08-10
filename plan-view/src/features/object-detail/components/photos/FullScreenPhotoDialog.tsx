@@ -1,6 +1,4 @@
-import { useEffect, useMemo } from "react";
-import { useGesture } from "@use-gesture/react";
-
+import { useEffect, useMemo, useState } from "react";
 import type { ObjectPhoto } from "../../../../db/schema";
 import { usePhotoZoom } from "../../hooks/usePhotoZoom";
 
@@ -10,101 +8,78 @@ interface Props {
   onDelete: (photo: ObjectPhoto) => void;
 }
 
-export function FullscreenPhotoDialog({
-  photo,
-  onClose,
-  onDelete,
-}: Props) {
-  const {
-    zoom,
-    setScale,
-    zoomIn,
-    reset,
-    setPosition,
-  } = usePhotoZoom();
+export function FullscreenPhotoDialog({ photo, onClose, onDelete }: Props) {
+  const { zoom, zoomIn, reset } = usePhotoZoom();
+
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const imageUrl = useMemo(() => {
-    if (!photo) {
-      return null;
-    }
-
+    if (!photo) return null;
     return URL.createObjectURL(photo.blob);
   }, [photo]);
 
   useEffect(() => {
     return () => {
-      if (imageUrl) {
-        URL.revokeObjectURL(imageUrl);
-      }
+      if (imageUrl) URL.revokeObjectURL(imageUrl);
     };
   }, [imageUrl]);
 
-  useEffect(() => {
-    reset();
-  }, [photo?.id, reset]);
+  // Si no hay foto o URL, no renderizamos nada
+  if (!photo || !imageUrl) return null;
 
-  const bind = useGesture({
-    onDrag: ({ offset: [x, y] }) => {
-      if (zoom.scale <= 1) {
-        return;
-      }
-
-      setPosition(x, y);
-    },
-
-    onPinch: ({ offset: [scale] }) => {
-  setScale(scale);
-},
-    onDoubleClick: () => {
-      if (zoom.scale > 1) {
-        reset();
-      } else {
-        zoomIn();
-      }
-    },
-  });
-
-  if (!photo || !imageUrl) {
-    return null;
+  function handleDelete() {
+    setShowDeleteConfirmation(false);
+    onDelete(photo!); // aquí TS sabe que no es null
   }
 
   return (
-    <div className="fullscreen-overlay">
+    <div key={photo!.id} className="fullscreen-overlay">
       <button
         type="button"
         className="close-button"
         onClick={onClose}
-        aria-label="Cerrar"
+        aria-label="Cerrar fotografía"
       >
         ✕
       </button>
-      
-      <button
-        type="button"
-        className="delete-button"
-        onClick={() => onDelete(photo)}
-        aria-label="Eliminar fotografía"
-      >
-        🗑️
-      </button>
 
-      <div
-        className="fullscreen-image-container"
-        {...bind()}
-      >
+      <div className="fullscreen-image-container">
         <img
           src={imageUrl}
-          alt={photo.fileName}
+          alt={photo!.fileName}
           className="fullscreen-image"
           style={{
-            transform: `
-              translate(${zoom.x}px, ${zoom.y}px)
-              scale(${zoom.scale})
-            `,
+            transform: `translate(${zoom.x}px, ${zoom.y}px) scale(${zoom.scale})`,
           }}
           draggable={false}
         />
       </div>
+
+      <div className="fullscreen-toolbar">
+        <button type="button" onClick={zoomIn}>🔍+</button>
+        <button type="button" onClick={reset}>↺</button>
+        <button type="button" onClick={() => setShowDeleteConfirmation(true)}>🗑️</button>
+      </div>
+
+      {showDeleteConfirmation && (
+        <div className="delete-confirmation">
+          <div className="delete-confirmation-content">
+            <h3>¿Eliminar fotografía?</h3>
+            <p>Esta acción no se puede deshacer.</p>
+            <div className="delete-confirmation-actions">
+              <button
+                type="button"
+                onClick={() => setShowDeleteConfirmation(false)}
+              >
+                Cancelar
+              </button>
+              <button type="button" onClick={handleDelete}>
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
