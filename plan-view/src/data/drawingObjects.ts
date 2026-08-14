@@ -1,3 +1,4 @@
+// DrawingObjects.ts
 /* Datos iniciales para probar. */
 import type { DrawingObject } from "../db/schema";
 

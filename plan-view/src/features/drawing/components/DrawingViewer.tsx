@@ -17,6 +17,9 @@ interface Props {
 export function DrawingViewer({ drawingId }: Props) {
   const objects = useDrawingObjects(drawingId);
 
+  console.log("DRAWING ID:", drawingId);
+  console.log("OBJETOS DESDE INDEXEDDB:", objects);
+
   return (
     <div className="relative w-full overflow-hidden">
       <img
