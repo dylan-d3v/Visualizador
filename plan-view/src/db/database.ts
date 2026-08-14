@@ -18,8 +18,13 @@ export class PlanViewDatabase extends Dexie {
     super("plan-view-db");
 
     this.version(1).stores({
-      drawings: "id, name",
-      objects: "id, drawingId, code",
+      photos:
+        "id, objectId, createdAt",
+    });
+
+    this.version(2).stores({
+      drawings: "id, name, createdAt, updatedAt",
+      objects: "id, drawingId, code, createdAt, updatedAt",
       photos: "id, objectId, createdAt",
     });
   }
