@@ -1,3 +1,4 @@
+// aun no usado
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { db } from "../../../db/database";
