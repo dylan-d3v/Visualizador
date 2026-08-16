@@ -112,13 +112,22 @@ code {
 
 .object-marker {
   position: absolute;
-  height: 1rem; /* Tamaño del marcador */
-  width: 1rem; /* Tamaño del marcador */
+  height:3rem; /* Tamaño del marcador */
+  width: 3rem; /* Tamaño del marcador */
   transform: translate(-50%, -50%); /* Centrar el marcador */
-  border-radius: 50%; /* Hacerlo circular */
+  border-radius: 0%; /* Hacerlo circular */
   background-color: #ff0000; /* Color del marcador */
   cursor: pointer; /* Cambiar el cursor al pasar sobre el marcador */
-  border: none; /* Eliminar el borde predeterminado */
+  border-color: #000000; /* Eliminar el borde predeterminado */
+  border-width: 2px; /* Ancho del borde */
+  color: white; /* Color del texto */  
+}
+
+/* Estilos para el marcador seleccionado */
+.object-marker-selected {
+  background-color: #00ff00; /* Cambiar el color del marcador seleccionado */
+  border-color: #000000; /* Cambiar el color del borde del marcador seleccionado */
+  color:#000
 }
 
 .bottom-sheet{

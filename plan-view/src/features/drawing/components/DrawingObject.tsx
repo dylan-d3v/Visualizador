@@ -1,29 +1,63 @@
-// Botón que representa un objeto de dibujo en la vista del plano. Al hacer clic en el botón, se selecciona el objeto correspondiente.
-import type { DrawingObject as DrawingObjectType } from "../../../db/schema";
+import type {
+  DrawingObject as DrawingObjectType
+} from "../../../db/schema";
+
 import { useViewerStore } from "../../../stores/viewerStore";
 
 interface Props {
   object: DrawingObjectType;
+
+  isEditing?: boolean;
+
+  isSelected?: boolean;
+
+  cssClass?: string;
+
+  onSelect?: (
+    object: DrawingObjectType
+  ) => void;
 }
 
-export function DrawingObject({ object }: Props) {
-  const selectObject = useViewerStore(
-    (state) => state.selectObject
-  );
+export function DrawingObject({
+  object,
+  isEditing = false,
+  isSelected = false,
+  onSelect,
+}: Props) {
+
+  const selectObject =
+    useViewerStore(
+      (state) => state.selectObject
+    );
+
+    
+  function handleClick(
+    event: React.MouseEvent
+  ) {
+
+    event.stopPropagation();
+
+    if (isEditing) {
+      onSelect?.(object);
+      return;
+    }
+
+    selectObject(object.id);
+  }
 
   return (
+    //isSelected=true,
+    console.log(isSelected), //pruebas
     <button
       type="button"
-      className="object-marker"
+      onClick={handleClick}
+       className={`object-marker ${isSelected ? "object-marker-selected" : ""}`}
       style={{
         left: `${object.x * 100}%`,
         top: `${object.y * 100}%`,
       }}
-      onClick={() => selectObject(object.id)}
     >
-      <span className="sr-only">
-        {object.code}
-      </span>
+      {object.code}
     </button>
   );
 }
