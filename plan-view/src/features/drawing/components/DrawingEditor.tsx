@@ -22,6 +22,14 @@ export function DrawingEditor({
     null
   );
 
+  const [
+    newObjectPosition,
+    setNewObjectPosition,
+  ] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+
   return (
     <div className="relative">
 
@@ -34,6 +42,22 @@ export function DrawingEditor({
         onObjectSelect={
           setSelectedObject
         }
+        onCanvasClick={(
+          x,
+          y
+        ) => {
+          setNewObjectPosition({
+            x,
+            y,
+          });
+
+          setSelectedObject(null);
+          console.log(
+            "NUEVA POSICIÓN:",
+            x,
+            y
+          );
+        }}
       />
 
       {selectedObject && (

@@ -47,7 +47,7 @@ export function DrawingObject({
 
   return (
     //isSelected=true,
-    console.log(isSelected), //pruebas
+    //console.log(isSelected), //pruebas
     <button
       type="button"
       onClick={handleClick}

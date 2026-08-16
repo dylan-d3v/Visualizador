@@ -23,6 +23,12 @@ interface Props {
   onObjectSelect?: (
     object: DrawingObjectType
   ) => void;
+
+  onCanvasClick?: (
+    x: number,
+    y: number
+  ) => void;
+
 }
 
 interface CanvasImageProps {
@@ -59,6 +65,7 @@ export function DrawingCanvas({
   isEditing = false,
   selectedObjectId = null,
   onObjectSelect,
+  onCanvasClick,
 }: Props) {
 
   const drawing =
@@ -73,7 +80,28 @@ export function DrawingCanvas({
   }
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div
+      className="relative w-full overflow-hidden"
+      onClick={(event) => {
+
+        if (!isEditing || !onCanvasClick) {
+          return;
+        }
+
+        const rect =
+          event.currentTarget.getBoundingClientRect();
+
+        const x =
+          (event.clientX - rect.left) /
+          rect.width;
+
+        const y =
+          (event.clientY - rect.top) /
+          rect.height;
+
+        onCanvasClick(x, y);
+      }}
+    >
 
       <CanvasImage
         imageBlob={drawing.imageBlob}
@@ -113,9 +141,9 @@ function CanvasObjects({
   const objects =
     useDrawingObjects(drawingId);
 
-  console.log("objects", objects);
+  //console.log("objects", objects);
 
-  
+
   return (
     <>
       {objects.map((object) => (
