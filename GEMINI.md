@@ -173,12 +173,9 @@ Esto es especialmente importante porque la aplicación debe ser mobile first.
 
 Después de completar el movimiento de objetos:
 
+* corregir la arquitectura del drag & drop para que mover un objeto no escriba continuamente en IndexedDB, sino que haga una sola escritura al soltarlo.
 * Editar código y descripción de objetos.
 * Eliminar objetos.
-* Capturar fotografías directamente con la cámara.
-* Eliminar fotografías.
-* Marcar una fotografía como principal.
-* Ver fotografías a pantalla completa con zoom.
 * Mejorar la interfaz mobile first.
 * Corregir y optimizar el comportamiento actual en teléfonos.
 * Detección automática de objetos en planos.
