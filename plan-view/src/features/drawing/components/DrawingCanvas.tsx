@@ -29,6 +29,11 @@ interface Props {
     y: number
   ) => void;
 
+  onObjectMove?: (
+    object: DrawingObjectType,
+    x: number,
+    y: number
+  ) => void;
 }
 
 interface CanvasImageProps {
@@ -66,6 +71,7 @@ export function DrawingCanvas({
   selectedObjectId = null,
   onObjectSelect,
   onCanvasClick,
+  onObjectMove,
 }: Props) {
 
   const drawing =
@@ -113,6 +119,7 @@ export function DrawingCanvas({
         isEditing={isEditing}
         selectedObjectId={selectedObjectId}
         onObjectSelect={onObjectSelect}
+        onObjectMove={onObjectMove}
       />
 
     </div>
@@ -129,6 +136,12 @@ interface CanvasObjectsProps {
   onObjectSelect?: (
     object: DrawingObjectType
   ) => void;
+
+  onObjectMove?: (
+    object: DrawingObjectType,
+    x: number,
+    y: number
+  ) => void;
 }
 
 function CanvasObjects({
@@ -136,25 +149,35 @@ function CanvasObjects({
   isEditing,
   selectedObjectId,
   onObjectSelect,
+  onObjectMove,
 }: CanvasObjectsProps) {
 
   const objects =
     useDrawingObjects(drawingId);
 
-  //console.log("objects", objects);
-
+  console.log("objects", objects);
 
   return (
     <>
       {objects.map((object) => (
         <DrawingObject
           key={object.id}
+
           object={object}
+
           isEditing={isEditing}
+
           isSelected={
             selectedObjectId === object.id
           }
-          onSelect={onObjectSelect}
+
+          onSelect={
+            onObjectSelect
+          }
+
+          onMove={
+            onObjectMove
+          }
         />
       ))}
     </>

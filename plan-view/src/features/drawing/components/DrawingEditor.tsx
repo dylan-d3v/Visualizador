@@ -11,6 +11,10 @@ import {
   addDrawingObject,
 } from "../../../db/repositories/drawingObjectRepository";
 
+import {
+  updateDrawingObject,
+} from "../../../db/repositories/drawingObjectRepository";
+
 interface Props {
   drawingId: string;
 }
@@ -37,6 +41,31 @@ export function DrawingEditor({
     y: number;
   } | null>(null);
 
+
+  async function handleMoveObject(
+  object: DrawingObjectType,
+  x: number,
+  y: number
+) {
+
+  const updatedObject: DrawingObjectType = {
+    ...object,
+
+    x,
+
+    y,
+
+    updatedAt: Date.now(),
+  };
+
+  await updateDrawingObject(
+    updatedObject
+  );
+
+  setSelectedObject(
+    updatedObject
+  );
+}
 
   // --------------------------------------------------
   // CREAR NUEVO OBJETO
@@ -123,6 +152,10 @@ export function DrawingEditor({
           // dejamos de seleccionarlo.
           setSelectedObject(null);
         }}
+
+        onObjectMove={handleMoveObject
+        }
+
       />
 
 
