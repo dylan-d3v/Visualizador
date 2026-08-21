@@ -112,15 +112,33 @@ code {
 
 .object-marker {
   position: absolute;
-  height:3rem; /* Tamaño del marcador */
-  width: 3rem; /* Tamaño del marcador */
-  transform: translate(-50%, -50%); /* Centrar el marcador */
-  border-radius: 0%; /* Hacerlo circular */
-  background-color: #ff0000; /* Color del marcador */
-  cursor: pointer; /* Cambiar el cursor al pasar sobre el marcador */
-  border-color: #000000; /* Eliminar el borde predeterminado */
-  border-width: 2px; /* Ancho del borde */
-  color: white; /* Color del texto */  
+
+  height: 3rem;
+  width: 3rem;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 0%;
+
+  background-color: #ff0000;
+
+  cursor: pointer;
+
+  border: 2px solid #000000;
+
+  color: white;
+
+  z-index: 10;
+
+  padding: 0;
+
+  font-size: 0.75rem;
+
+  font-weight: bold;
+
+  touch-action: none;
+
+  user-select: none; 
 }
 
 /* Estilos para el marcador seleccionado */
@@ -128,6 +146,96 @@ code {
   background-color: #00ff00; /* Cambiar el color del marcador seleccionado */
   border-color: #000000; /* Cambiar el color del borde del marcador seleccionado */
   color:#000
+}
+
+/* Cuando estamos editando */
+.object-marker[data-editing="true"] {
+  cursor: grab;
+}
+
+/* Mientras se está arrastrando */
+.object-marker[data-editing="true"]:active {
+  cursor: grabbing;
+}
+
+/* =========================================
+   EDITOR DEL PLANO
+   ========================================= */
+
+.drawing-editor {
+  position: relative;
+  width: 100%;
+}
+
+
+.object-editor-panel {
+  position: absolute;
+
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+
+  z-index: 20;
+
+  padding: 1rem;
+
+  background: white;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+.object-editor-title {
+  margin: 0 0 0.5rem;
+
+  font-size: 1.125rem;
+
+  font-weight: bold;
+
+  color: #000;
+}
+
+
+.object-editor-description {
+  margin: 0;
+
+  font-size: 0.875rem;
+
+  color: #666;
+}
+
+
+.object-editor-coordinates {
+  margin-top: 0.5rem;
+
+  font-size: 0.75rem;
+
+  color: #777;
+}
+
+
+.object-editor-close {
+  margin-top: 0.75rem;
+
+  padding: 0.5rem 0.75rem;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+
+  background: white;
+
+  cursor: pointer;
+
+  font-size: 0.875rem;
+}
+
+
+.object-editor-close:hover {
+  background: #f5f5f5;
 }
 
 .bottom-sheet{

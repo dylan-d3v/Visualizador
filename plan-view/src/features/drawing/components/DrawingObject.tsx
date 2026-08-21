@@ -143,10 +143,13 @@ export function DrawingObject({
 
       className={`object-marker ${isSelected ? "object-marker-selected" : ""}`}
 
+      data-editing={isEditing}
+      
       style={{
         left: `${object.x * 100}%`,
         top: `${object.y * 100}%`,
       }}
+        
     >
       {object.code}
     </button>
