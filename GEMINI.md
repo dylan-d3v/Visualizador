@@ -93,7 +93,9 @@ src/
 * Las fotografías se almacenan localmente en IndexedDB como `Blob`.
 * Existe un repositorio `photoRepository.ts` para agregar, eliminar y consultar fotografías.
 * La primera fotografía de un objeto se marca automáticamente como principal.
+* Se puede marcar una fotografia como proncipal manualmente, pero solo una principal por objeto.
 * Existe `PhotoUploader` para seleccionar una imagen desde el dispositivo.
+* Existe la opcion de tomar fotografia desde el dispositivo.
 * La visualización y gestión de fotografías ya está integrada en el detalle del objeto.
 
 ### Editor manual
