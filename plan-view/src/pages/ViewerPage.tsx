@@ -33,7 +33,7 @@ export function ViewerPage() {
 
       {/* Selector de modo */}
 
-      <div className="flex gap-2 px-4 pb-4">
+      <div className="cont-acciones-ver-editar">
 
         <button
           type="button"
@@ -41,16 +41,11 @@ export function ViewerPage() {
             setIsEditing(false)
           }
           className={`
-            flex-1
-            rounded-lg
-            border
-            px-4
-            py-2
-            font-medium
+            boton
             ${
               !isEditing
-                ? "bg-gray-900 text-white"
-                : "bg-white text-gray-700"
+                ? "boton-seleccionado"
+                : "boton"
             }
           `}
         >
@@ -63,16 +58,11 @@ export function ViewerPage() {
             setIsEditing(true)
           }
           className={`
-            flex-1
-            rounded-lg
-            border
-            px-4
-            py-2
-            font-medium
+            boton
             ${
               isEditing
-                ? "bg-gray-900 text-white"
-                : "bg-white text-gray-700"
+                ? "boton-seleccionado"
+                : "boton"
             }
           `}
         >

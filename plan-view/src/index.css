@@ -249,7 +249,7 @@ code {
 
     box-shadow:0 -5px 30px rgba(0,0,0,.2);
 
-    min-height:220px;
+    min-height:80px;
 }
 
 .object-title{
@@ -599,3 +599,119 @@ code {
 .photo-options button span {
   flex: 1;
 }
+
+.boton-deseleccionar {
+  margin-top: 0.75rem;       /* mt-3 → 12px */
+  border-radius: 0.5rem;     /* rounded-lg → 8px */
+  border-width: 1px;         /* border → 1px */
+  border-style: solid;
+  border-color: #e5e7eb;     /* gris por defecto */
+  padding-left: 0.75rem;     /* px-3 → 12px */
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;       /* py-2 → 8px */
+  padding-bottom: 0.5rem;
+  font-size: 0.875rem;       /* text-sm → 14px */
+  line-height: 1.25rem;      /* 20px */
+  cursor: pointer;
+}
+
+.boton-guardar {
+  flex: 1;                  /* flex-1 → ocupa todo el espacio disponible */
+  border-radius: 0.5rem;     /* rounded-lg → esquinas redondeadas (8px) */
+  background-color: #111827; /* bg-gray-900 → gris muy oscuro */
+  padding-left: 1rem;        /* px-4 → 16px */
+  padding-right: 1rem;       /* px-4 → 16px */
+  padding-top: 0.5rem;       /* py-2 → 8px */
+  padding-bottom: 0.5rem;    /* py-2 → 8px */
+  font-weight: 500;          /* font-medium → peso medio */
+  color: #ffffff;            /* text-white → texto blanco */
+}
+.boton-cancelar {
+  flex: 1;                  /* flex-1 → ocupa todo el espacio disponible dentro del contenedor flex */
+  border-radius: 0.5rem;    /* rounded-lg → 8px */
+  border-width: 1px;        /* border → 1px */
+  border-style: solid;
+  border-color: #e5e7eb;    /* gris por defecto */
+  padding-left: 1rem;       /* px-4 → 16px */
+  padding-right: 1rem;
+  padding-top: 0.5rem;      /* py-2 → 8px */
+  padding-bottom: 0.5rem;
+  font-weight: 500;         /* font-medium */
+}
+.boton-oscuro {
+  flex: 1;                  /* flex-1 → ocupa todo el espacio disponible dentro de un contenedor flex */
+  border-radius: 0.5rem;    /* rounded-lg → 8px */
+  border-width: 1px;        /* border → 1px */
+  border-style: solid;
+  border-color: #e5e7eb;    /* gris por defecto */
+  padding-left: 1rem;       /* px-4 → 16px */
+  padding-right: 1rem;
+  padding-top: 0.5rem;      /* py-2 → 8px */
+  padding-bottom: 0.5rem;
+  font-weight: 500;         /* font-medium */
+  background-color: #111827;/* bg-gray-900 → gris muy oscuro */
+  color: #ffffff;           /* text-white → texto blanco */
+}
+/* Contenedor */
+.cont-acciones-ver-editar {
+  display: flex;       /* flex */
+  gap: 0.5rem;         /* gap-2 → 8px */
+  padding-left: 1rem;  /* px-4 → 16px */
+  padding-right: 1rem;
+  padding-bottom: 1rem;/* pb-4 → 16px */
+}
+
+/* Botón base */
+.boton {
+  flex: 1;                  /* flex-1 */
+  border-radius: 0.5rem;    /* rounded-lg → 8px */
+  border-width: 1px;        /* border */
+  border-style: solid;
+  border-color: #e5e7eb;    /* gris por defecto */
+  padding-left: 1rem;       /* px-4 → 16px */
+  padding-right: 1rem;
+  padding-top: 0.5rem;      /* py-2 → 8px */
+  padding-bottom: 0.5rem;
+  font-weight: 500;         /* font-medium */
+}
+
+/* Estado: no está editando */
+.boton-seleccionado {
+  background-color: #111827; /* bg-gray-900 */
+  color: #ffffff;            /* text-white */
+}
+
+/* Estado: sí está editando */
+.boton-editar {
+  background-color: #ffffff; /* bg-white */
+  color: #374151;            /* text-gray-700 */
+}
+/* Contenedor principal */
+.selector-contenedor {
+  width: 100%;        /* w-full */
+  padding: 1rem;      /* p-4 → 16px */
+}
+
+/* Label */
+.selector-label {
+  margin-bottom: 0.5rem; /* mb-2 → 8px */
+  display: block;        /* block */
+  font-size: 0.875rem;   /* text-sm → 14px */
+  line-height: 1.25rem;  /* 20px */
+  font-weight: 500;      /* font-medium */
+}
+
+/* Select */
+.selector-input {
+  width: 100%;           /* w-full */
+  border-radius: 0.5rem; /* rounded-lg → 8px */
+  border-width: 1px;     /* border */
+  border-style: solid;
+  border-color: #e5e7eb; /* gris por defecto */
+  padding-left: 0.75rem; /* px-3 → 12px */
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;   /* py-2 → 8px */
+  padding-bottom: 0.5rem;
+}
+
+

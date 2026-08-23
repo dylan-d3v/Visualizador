@@ -16,10 +16,10 @@ export function DrawingSelector({
   }
 
   return (
-    <div className="w-full p-4">
+    <div className="selector-contenedor">
       <label
         htmlFor="drawing-selector"
-        className="mb-2 block text-sm font-medium"
+        className="selector-label"
       >
         Plano
       </label>
@@ -30,7 +30,7 @@ export function DrawingSelector({
         onChange={(event) =>
           onSelect(event.target.value)
         }
-        className="w-full rounded-lg border px-3 py-2"
+        className="selector-input"
       >
         {drawing && (
           <option

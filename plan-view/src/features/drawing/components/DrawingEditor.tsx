@@ -188,20 +188,11 @@ export function DrawingEditor({
       {selectedObject && (
 
         <div className="
-          absolute
-          bottom-4
-          left-4
-          right-4
-          z-20
-          rounded-xl
-          bg-white
-          p-4
-          shadow-lg
+          bottom-sheet
         ">
 
           <h2 className="
-            text-lg
-            font-bold
+            object-title
           ">
             {selectedObject.code}
           </h2>
@@ -228,14 +219,7 @@ export function DrawingEditor({
             onClick={() =>
               setSelectedObject(null)
             }
-            className="
-              mt-3
-              rounded-lg
-              border
-              px-3
-              py-2
-              text-sm
-            "
+            className="boton-deseleccionar"
           >
             Deseleccionar
           </button>
