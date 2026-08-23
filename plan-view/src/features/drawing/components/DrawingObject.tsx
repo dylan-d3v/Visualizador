@@ -50,85 +50,100 @@ export function DrawingObject({
   }
 
 
-  function handlePointerDown(
-    event: React.PointerEvent<HTMLButtonElement>
-  ) {
+function handlePointerDown(
+  event: React.PointerEvent<HTMLButtonElement>
+) {
 
-    if (!isEditing || !onMove) {
-      return;
-    }
+  if (!isEditing || !onMove) {
+    return;
+  }
 
-    event.stopPropagation();
+  event.stopPropagation();
 
-    const button =
-      event.currentTarget;
+  const button =
+    event.currentTarget;
 
-    const canvas =
-      button.parentElement;
+  const canvas =
+    button.parentElement;
 
-    if (!canvas) {
-      return;
-    }
+  if (!canvas) {
+    return;
+  }
 
-    const rect =
-      canvas.getBoundingClientRect();
+  const rect =
+    canvas.getBoundingClientRect();
 
-    const handlePointerMove = (
-      moveEvent: PointerEvent
-    ) => {
-
-      const x =
-        (moveEvent.clientX - rect.left) /
-        rect.width;
-
-      const y =
-        (moveEvent.clientY - rect.top) /
-        rect.height;
-
-      const clampedX =
-        Math.max(
-          0,
-          Math.min(1, x)
-        );
-
-      const clampedY =
-        Math.max(
-          0,
-          Math.min(1, y)
-        );
-
-      onMove(
-        object,
-        clampedX,
-        clampedY
-      );
-    };
+  let currentX = object.x;
+  let currentY = object.y;
 
 
-    const handlePointerUp = () => {
+  const handlePointerMove = (
+    moveEvent: PointerEvent
+  ) => {
 
-      window.removeEventListener(
-        "pointermove",
-        handlePointerMove
-      );
+    const x =
+      (moveEvent.clientX - rect.left) /
+      rect.width;
 
-      window.removeEventListener(
-        "pointerup",
-        handlePointerUp
-      );
-    };
+    const y =
+      (moveEvent.clientY - rect.top) /
+      rect.height;
 
 
-    window.addEventListener(
+    currentX = Math.max(
+      0,
+      Math.min(1, x)
+    );
+
+    currentY = Math.max(
+      0,
+      Math.min(1, y)
+    );
+
+
+    // Actualizamos únicamente la posición visual
+    // mientras el usuario arrastra.
+    button.style.left =
+      `${currentX * 100}%`;
+
+    button.style.top =
+      `${currentY * 100}%`;
+  };
+
+
+  const handlePointerUp = () => {
+
+    window.removeEventListener(
       "pointermove",
       handlePointerMove
     );
 
-    window.addEventListener(
+    window.removeEventListener(
       "pointerup",
       handlePointerUp
     );
-  }
+
+
+    // Guardamos solamente cuando
+    // termina el movimiento.
+    onMove(
+      object,
+      currentX,
+      currentY
+    );
+  };
+
+
+  window.addEventListener(
+    "pointermove",
+    handlePointerMove
+  );
+
+  window.addEventListener(
+    "pointerup",
+    handlePointerUp
+  );
+}
 
 
   return (
