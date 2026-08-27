@@ -11,7 +11,13 @@ interface Props {
 
   isSelected?: boolean;
 
+  isMoving?: boolean;
+
   onSelect?: (
+    object: DrawingObjectType
+  ) => void;
+
+  onToggleMoving?: (
     object: DrawingObjectType
   ) => void;
 
@@ -26,7 +32,9 @@ export function DrawingObject({
   object,
   isEditing = false,
   isSelected = false,
+  isMoving = false,
   onSelect,
+  onToggleMoving,
   onMove,
 }: Props) {
 
@@ -35,115 +43,130 @@ export function DrawingObject({
       (state) => state.selectObject
     );
 
+
   function handleClick(
-    event: React.MouseEvent
+    event: React.MouseEvent<HTMLButtonElement>
   ) {
 
     event.stopPropagation();
 
-    if (isEditing) {
-      onSelect?.(object);
+    if (!isEditing) {
+      selectObject(object.id);
       return;
     }
 
-    selectObject(object.id);
+    onSelect?.(object);
   }
 
 
-function handlePointerDown(
-  event: React.PointerEvent<HTMLButtonElement>
-) {
+  function handleDoubleClick(
+    event: React.MouseEvent<HTMLButtonElement>
+  ) {
 
-  if (!isEditing || !onMove) {
-    return;
+    if (!isEditing) {
+      return;
+    }
+
+    event.stopPropagation();
+
+    onToggleMoving?.(object);
   }
 
-  event.stopPropagation();
 
-  const button =
-    event.currentTarget;
+  function handlePointerDown(
+    event: React.PointerEvent<HTMLButtonElement>
+  ) {
 
-  const canvas =
-    button.parentElement;
+    if (
+      !isEditing ||
+      !isMoving ||
+      !onMove
+    ) {
+      return;
+    }
 
-  if (!canvas) {
-    return;
-  }
+    event.stopPropagation();
 
-  const rect =
-    canvas.getBoundingClientRect();
+    const button =
+      event.currentTarget;
 
-  let currentX = object.x;
-  let currentY = object.y;
+    const canvas =
+      button.parentElement;
 
+    if (!canvas) {
+      return;
+    }
 
-  const handlePointerMove = (
-    moveEvent: PointerEvent
-  ) => {
+    const rect =
+      canvas.getBoundingClientRect();
 
-    const x =
-      (moveEvent.clientX - rect.left) /
-      rect.width;
+    let currentX = object.x;
 
-    const y =
-      (moveEvent.clientY - rect.top) /
-      rect.height;
-
-
-    currentX = Math.max(
-      0,
-      Math.min(1, x)
-    );
-
-    currentY = Math.max(
-      0,
-      Math.min(1, y)
-    );
+    let currentY = object.y;
 
 
-    // Actualizamos únicamente la posición visual
-    // mientras el usuario arrastra.
-    button.style.left =
-      `${currentX * 100}%`;
+    const handlePointerMove = (
+      moveEvent: PointerEvent
+    ) => {
 
-    button.style.top =
-      `${currentY * 100}%`;
-  };
+      const x =
+        (moveEvent.clientX - rect.left) /
+        rect.width;
+
+      const y =
+        (moveEvent.clientY - rect.top) /
+        rect.height;
 
 
-  const handlePointerUp = () => {
+      currentX = Math.max(
+        0,
+        Math.min(1, x)
+      );
 
-    window.removeEventListener(
+      currentY = Math.max(
+        0,
+        Math.min(1, y)
+      );
+
+
+      button.style.left =
+        `${currentX * 100}%`;
+
+      button.style.top =
+        `${currentY * 100}%`;
+    };
+
+
+    const handlePointerUp = () => {
+
+      window.removeEventListener(
+        "pointermove",
+        handlePointerMove
+      );
+
+      window.removeEventListener(
+        "pointerup",
+        handlePointerUp
+      );
+
+      onMove(
+        object,
+        currentX,
+        currentY
+      );
+    };
+
+
+    window.addEventListener(
       "pointermove",
       handlePointerMove
     );
 
-    window.removeEventListener(
+    window.addEventListener(
       "pointerup",
       handlePointerUp
     );
-
-
-    // Guardamos solamente cuando
-    // termina el movimiento.
-    onMove(
-      object,
-      currentX,
-      currentY
-    );
-  };
-
-
-  window.addEventListener(
-    "pointermove",
-    handlePointerMove
-  );
-
-  window.addEventListener(
-    "pointerup",
-    handlePointerUp
-  );
-}
+  }
 
 
   return (
@@ -152,19 +175,30 @@ function handlePointerDown(
 
       onClick={handleClick}
 
+      onDoubleClick={
+        handleDoubleClick
+      }
+
       onPointerDown={
         handlePointerDown
       }
 
-      className={`object-marker ${isSelected ? "object-marker-selected" : ""}`}
+      className={
+        isMoving
+          ? "object-marker object-marker-moving"
+          : isSelected
+            ? "object-marker object-marker-selected"
+            : "object-marker"
+      }
 
       data-editing={isEditing}
-      
+
       style={{
         left: `${object.x * 100}%`,
         top: `${object.y * 100}%`,
       }}
-        
+
+      data-moving={isMoving}
     >
       {object.code}
     </button>

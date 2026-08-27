@@ -175,6 +175,9 @@ Esto es especialmente importante porque la aplicación debe ser mobile first.
 
 Después de completar el movimiento de objetos:
 
+
+* Corregir el offset del arrastre → ahora.
+* Cambiar la arquitectura visual del plano para tener zoom/pan propio → después del offset, porque esto es una funcionalidad bastante más grande.
 * Redimensionar bien la vista del plano, ya que por defecto el plano se esta mostrando hecho zoom, cuando enrealidad deberia mostrarse el plano entero visible y el usuario hacer zoom en el plano para ver los objetos.
 * Que cuando se de click en ver un objeto, se oculte la pestaña de selector de plano, esto es para que pueda tener espacio para que se vea el plano.
 * corregir la arquitectura del drag & drop para que mover un objeto no escriba continuamente en IndexedDB, sino que haga una sola escritura al soltarlo.

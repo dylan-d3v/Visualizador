@@ -714,4 +714,13 @@ code {
   padding-bottom: 0.5rem;
 }
 
+.object-marker-moving {
+  background-color: #2563eb;
+  border-color: #1d4ed8;
+  color: white;
+  cursor: grab;
+}
 
+.object-marker-moving:active {
+  cursor: grabbing;
+}

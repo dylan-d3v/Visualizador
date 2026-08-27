@@ -41,31 +41,50 @@ export function DrawingEditor({
     y: number;
   } | null>(null);
 
+  const [
+    movingObjectId,
+    setMovingObjectId,
+  ] = useState<string | null>(
+    null
+  );
+
+  function handleToggleMoving(
+    object: DrawingObjectType
+  ) {
+
+    setMovingObjectId(
+      currentId =>
+        currentId === object.id
+          ? null
+          : object.id
+    );
+  }
+
 
   async function handleMoveObject(
-  object: DrawingObjectType,
-  x: number,
-  y: number
-) {
+    object: DrawingObjectType,
+    x: number,
+    y: number
+  ) {
 
-  const updatedObject: DrawingObjectType = {
-    ...object,
+    const updatedObject: DrawingObjectType = {
+      ...object,
 
-    x,
+      x,
 
-    y,
+      y,
 
-    updatedAt: Date.now(),
-  };
+      updatedAt: Date.now(),
+    };
 
-  await updateDrawingObject(
-    updatedObject
-  );
+    await updateDrawingObject(
+      updatedObject
+    );
 
-  setSelectedObject(
-    updatedObject
-  );
-}
+    setSelectedObject(
+      updatedObject
+    );
+  }
 
   // --------------------------------------------------
   // CREAR NUEVO OBJETO
@@ -124,38 +143,21 @@ export function DrawingEditor({
           selectedObject?.id ?? null
         }
 
+        movingObjectId={
+          movingObjectId
+        }
+
         onObjectSelect={
-          (object) => {
-
-            // Estamos seleccionando
-            // un objeto existente
-            setSelectedObject(object);
-
-            // Si había un formulario
-            // de nuevo objeto abierto,
-            // lo cerramos
-            setNewObjectPosition(null);
-          }
+          setSelectedObject
         }
 
-        onCanvasClick={(x, y) => {
-
-          // El usuario tocó un espacio
-          // vacío del plano.
-
-          setNewObjectPosition({
-            x,
-            y,
-          });
-
-          // Si había un objeto seleccionado,
-          // dejamos de seleccionarlo.
-          setSelectedObject(null);
-        }}
-
-        onObjectMove={handleMoveObject
+        onToggleObjectMoving={
+          handleToggleMoving
         }
 
+        onObjectMove={
+          handleMoveObject
+        }
       />
 
 

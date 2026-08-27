@@ -1,3 +1,5 @@
+
+GEMINI.md
 # Node
 node_modules/
 npm-debug.log*
@@ -44,5 +46,4 @@ coverage/
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
-GEMINI.md
 .aider*

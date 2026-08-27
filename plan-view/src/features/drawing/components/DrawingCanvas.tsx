@@ -12,7 +12,6 @@ import { useDrawing } from "../hooks/useDrawing";
 import { useDrawingObjects } from "../../object-detail/hooks/useDrawingObjects";
 
 import { DrawingObject } from "./DrawingObject";
-
 interface Props {
   drawingId: string;
 
@@ -20,13 +19,16 @@ interface Props {
 
   selectedObjectId?: string | null;
 
+  movingObjectId?: string | null;
+
+  onCanvasClick?: (x: number, y: number) => void; 
+
   onObjectSelect?: (
     object: DrawingObjectType
   ) => void;
 
-  onCanvasClick?: (
-    x: number,
-    y: number
+  onToggleObjectMoving?: (
+    object: DrawingObjectType
   ) => void;
 
   onObjectMove?: (
@@ -69,8 +71,10 @@ export function DrawingCanvas({
   drawingId,
   isEditing = false,
   selectedObjectId = null,
-  onObjectSelect,
+  movingObjectId = null,
   onCanvasClick,
+  onObjectSelect,
+  onToggleObjectMoving,
   onObjectMove,
 }: Props) {
 
@@ -118,7 +122,11 @@ export function DrawingCanvas({
         drawingId={drawingId}
         isEditing={isEditing}
         selectedObjectId={selectedObjectId}
+        movingObjectId={movingObjectId}
         onObjectSelect={onObjectSelect}
+        onToggleObjectMoving={
+          onToggleObjectMoving
+        }
         onObjectMove={onObjectMove}
       />
 
@@ -133,7 +141,13 @@ interface CanvasObjectsProps {
 
   selectedObjectId: string | null;
 
+  movingObjectId: string | null;
+
   onObjectSelect?: (
+    object: DrawingObjectType
+  ) => void;
+
+  onToggleObjectMoving?: (
     object: DrawingObjectType
   ) => void;
 
@@ -148,7 +162,9 @@ function CanvasObjects({
   drawingId,
   isEditing,
   selectedObjectId,
+  movingObjectId,
   onObjectSelect,
+  onToggleObjectMoving,
   onObjectMove,
 }: CanvasObjectsProps) {
 
@@ -171,8 +187,16 @@ function CanvasObjects({
             selectedObjectId === object.id
           }
 
+          isMoving={
+            movingObjectId === object.id
+          }
+
           onSelect={
             onObjectSelect
+          }
+
+          onToggleMoving={
+            onToggleObjectMoving
           }
 
           onMove={
