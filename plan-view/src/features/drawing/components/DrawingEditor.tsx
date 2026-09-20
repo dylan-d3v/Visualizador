@@ -9,11 +9,9 @@ import { NewObjectForm } from "./NewObjectForm";
 
 import {
   addDrawingObject,
-} from "../../../db/repositories/drawingObjectRepository";
-
-import {
   updateDrawingObject,
 } from "../../../db/repositories/drawingObjectRepository";
+
 
 interface Props {
   drawingId: string;
@@ -67,23 +65,14 @@ export function DrawingEditor({
     y: number
   ) {
 
-    const updatedObject: DrawingObjectType = {
-      ...object,
-
-      x,
-
-      y,
-
-      updatedAt: Date.now(),
-    };
-
     await updateDrawingObject(
-      updatedObject
+      object.id,
+      { x, y }
     );
 
-    setSelectedObject(
-      updatedObject
-    );
+    // Actualizamos el estado local para
+    // reflejar la nueva posición en el panel.
+    setSelectedObject({ ...object, x, y });
   }
 
   // --------------------------------------------------

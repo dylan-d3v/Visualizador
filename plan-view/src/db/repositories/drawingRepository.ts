@@ -2,10 +2,7 @@
 
 import { db } from "../database";
 
-import type {
-  Drawing,
-  DrawingObject,
-} from "../schema";
+import type { Drawing } from "../schema";
 
 /* =========================================================
    DRAWINGS
@@ -102,89 +99,6 @@ export async function deleteDrawing(
         .delete();
 
       await db.drawings.delete(id);
-    }
-  );
-}
-
-
-/* =========================================================
-   DRAWING OBJECTS
-   ========================================================= */
-
-/**
- * Crea un objeto dentro de un plano.
- */
-export async function createDrawingObject(
-  object: DrawingObject
-) {
-  await db.objects.add(object);
-}
-
-
-/**
- * Obtiene todos los objetos pertenecientes
- * a un plano.
- */
-export async function getObjectsByDrawing(
-  drawingId: string
-) {
-  return db.objects
-    .where("drawingId")
-    .equals(drawingId)
-    .sortBy("createdAt");
-}
-
-
-/**
- * Obtiene un objeto por su ID.
- */
-export async function getDrawingObject(
-  id: string
-) {
-  return db.objects.get(id);
-}
-
-
-/**
- * Actualiza un objeto.
- */
-export async function updateDrawingObject(
-  id: string,
-  changes: Partial<
-    Omit<DrawingObject, "id">
-  >
-) {
-  await db.objects.update(
-    id,
-    {
-      ...changes,
-      updatedAt: Date.now(),
-    }
-  );
-}
-
-
-/**
- * Elimina un objeto y todas sus fotografías.
- */
-export async function deleteDrawingObject(
-  id: string
-) {
-  await db.transaction(
-    "rw",
-    [
-      db.objects,
-      db.photos,
-    ],
-    async () => {
-
-      await db.photos
-        .where("objectId")
-        .equals(id)
-        .delete();
-
-      await db.objects
-        .delete(id);
     }
   );
 }
