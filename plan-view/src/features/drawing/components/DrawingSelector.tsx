@@ -1,4 +1,5 @@
-import { useDrawing } from "../hooks/useDrawing";
+import { useDrawings } from "../hooks/useDrawings";
+
 interface Props {
   selectedDrawingId: string;
   onSelect: (drawingId: string) => void;
@@ -9,9 +10,10 @@ export function DrawingSelector({
   onSelect,
 }: Props) {
 
-  const drawing = useDrawing(selectedDrawingId);
+  const drawings = useDrawings();
 
-  if (!drawing) {
+  // Mientras no haya planos cargados, no renderizamos nada.
+  if (drawings.length === 0) {
     return null;
   }
 
@@ -32,14 +34,14 @@ export function DrawingSelector({
         }
         className="selector-input"
       >
-        {drawing && (
+        {drawings.map((drawing) => (
           <option
             key={drawing.id}
             value={drawing.id}
           >
             {drawing.name}
           </option>
-        )}
+        ))}
       </select>
     </div>
   );
