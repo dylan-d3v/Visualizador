@@ -136,6 +136,15 @@ export function DrawingEditor({
           movingObjectId
         }
 
+        onCanvasClick={(x, y) => {
+          // No abrir el formulario si hay
+          // un objeto en movimiento activo.
+          if (movingObjectId) {
+            return;
+          }
+          setNewObjectPosition({ x, y });
+        }}
+
         onObjectSelect={
           setSelectedObject
         }
@@ -148,6 +157,7 @@ export function DrawingEditor({
           handleMoveObject
         }
       />
+
 
 
       {/* ---------------------------------------------
