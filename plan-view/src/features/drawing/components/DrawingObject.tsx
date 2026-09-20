@@ -73,100 +73,148 @@ export function DrawingObject({
   }
 
 
-  function handlePointerDown(
-    event: React.PointerEvent<HTMLButtonElement>
+function handlePointerDown(
+  event: React.PointerEvent<HTMLButtonElement>
+) {
+
+  if (
+    !isEditing ||
+    !isMoving ||
+    !onMove
   ) {
+    return;
+  }
 
-    if (
-      !isEditing ||
-      !isMoving ||
-      !onMove
-    ) {
-      return;
-    }
+  event.preventDefault();
+  event.stopPropagation();
 
-    event.stopPropagation();
+  const button =
+    event.currentTarget;
 
-    const button =
-      event.currentTarget;
+  const canvas =
+    button.parentElement;
 
-    const canvas =
-      button.parentElement;
+  if (!canvas) {
+    return;
+  }
 
-    if (!canvas) {
-      return;
-    }
+  const image =
+    canvas.querySelector<HTMLImageElement>(
+      ".drawing-image"
+    );
 
-    const rect =
-      canvas.getBoundingClientRect();
+  if (!image) {
+    return;
+  }
 
-    let currentX = object.x;
+  const imageRect =
+    image.getBoundingClientRect();
 
-    let currentY = object.y;
-
-
-    const handlePointerMove = (
-      moveEvent: PointerEvent
-    ) => {
-
-      const x =
-        (moveEvent.clientX - rect.left) /
-        rect.width;
-
-      const y =
-        (moveEvent.clientY - rect.top) /
-        rect.height;
+  const buttonRect =
+    button.getBoundingClientRect();
 
 
-      currentX = Math.max(
-        0,
-        Math.min(1, x)
-      );
+  // Conservamos la distancia entre
+  // el puntero y el centro del marcador.
+  const offsetX =
+    event.clientX -
+    (
+      buttonRect.left +
+      buttonRect.width / 2
+    );
 
-      currentY = Math.max(
-        0,
-        Math.min(1, y)
-      );
-
-
-      button.style.left =
-        `${currentX * 100}%`;
-
-      button.style.top =
-        `${currentY * 100}%`;
-    };
+  const offsetY =
+    event.clientY -
+    (
+      buttonRect.top +
+      buttonRect.height / 2
+    );
 
 
-    const handlePointerUp = () => {
+  let currentX = object.x;
 
-      window.removeEventListener(
-        "pointermove",
-        handlePointerMove
-      );
-
-      window.removeEventListener(
-        "pointerup",
-        handlePointerUp
-      );
-
-      onMove(
-        object,
-        currentX,
-        currentY
-      );
-    };
+  let currentY = object.y;
 
 
-    window.addEventListener(
+  // Capturamos el puntero para mantener
+  // el arrastre aunque salga del botón.
+  button.setPointerCapture(
+    event.pointerId
+  );
+
+
+  const handlePointerMove = (
+    moveEvent: PointerEvent
+  ) => {
+
+    const x =
+      (
+        moveEvent.clientX -
+        imageRect.left -
+        offsetX
+      ) /
+      imageRect.width;
+
+    const y =
+      (
+        moveEvent.clientY -
+        imageRect.top -
+        offsetY
+      ) /
+      imageRect.height;
+
+
+    currentX = Math.max(
+      0,
+      Math.min(1, x)
+    );
+
+    currentY = Math.max(
+      0,
+      Math.min(1, y)
+    );
+
+
+    // Actualizamos solamente la posición visual.
+    button.style.left =
+      `${currentX * 100}%`;
+
+    button.style.top =
+      `${currentY * 100}%`;
+  };
+
+
+  const handlePointerUp = () => {
+
+    window.removeEventListener(
       "pointermove",
       handlePointerMove
     );
 
-    window.addEventListener(
+    window.removeEventListener(
       "pointerup",
       handlePointerUp
     );
-  }
+
+
+    onMove(
+      object,
+      currentX,
+      currentY
+    );
+  };
+
+
+  window.addEventListener(
+    "pointermove",
+    handlePointerMove
+  );
+
+  window.addEventListener(
+    "pointerup",
+    handlePointerUp
+  );
+}
 
 
   return (

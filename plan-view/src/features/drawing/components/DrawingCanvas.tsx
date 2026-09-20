@@ -62,7 +62,7 @@ function CanvasImage({
     <img
       src={imageUrl}
       alt={alt}
-      className="block w-full"
+      className="drawing-image block w-full"
     />
   );
 }

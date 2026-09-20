@@ -175,7 +175,7 @@ Esto es especialmente importante porque la aplicación debe ser mobile first.
 
 Después de completar el movimiento de objetos:
 
-
+* Arreglar bug en el panel de vista, no se abre el object-sheet al clickear un objeto creado.
 * Corregir el offset del arrastre → ahora.
 * Cambiar la arquitectura visual del plano para tener zoom/pan propio → después del offset, porque esto es una funcionalidad bastante más grande.
 * Redimensionar bien la vista del plano, ya que por defecto el plano se esta mostrando hecho zoom, cuando enrealidad deberia mostrarse el plano entero visible y el usuario hacer zoom en el plano para ver los objetos.
